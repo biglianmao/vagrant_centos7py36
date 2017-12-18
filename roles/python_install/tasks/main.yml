@@ -1,0 +1,101 @@
+---
+# Variable registered to determine if the specified version of Python is installed and if not, install it
+- name: Check Python version
+  command: python --version
+  register: python_version
+  changed_when: False
+
+- block:
+
+  - name: Install yum-utils for ansible compatibility
+    yum:
+      name: yum-utils
+      state: present
+
+  - name: Install python dependency packages on target system
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items: "{{ packages }}"
+
+  - name: Download {{ python_full_version }}
+    get_url:
+      url: "{{ python_download_url }}"
+      dest: /tmp/
+
+  - name: Un-tar Python
+    unarchive:
+      src: /tmp/{{ python_full_version }}.tgz
+      dest: /tmp/
+      copy: no
+
+  - name: Configure ld.so.conf
+    lineinfile:
+      dest: /etc/ld.so.conf
+      line: "/usr/local/{{ python_version_install_directory }}/lib"
+      state: present
+
+  - name: Configure {{ python_full_version }}
+    shell: ./configure --prefix=/usr/local/{{ python_version_install_directory }} --enable-shared
+    args:
+      chdir: /tmp/{{ python_full_version }}/
+
+  - name: Compile {{ python_full_version }}
+    shell: make && make altinstall
+    args:
+      chdir: /tmp/{{ python_full_version }}/
+
+  # Some cleanup
+  - name: Remove Python files from /tmp
+    file:
+      path: /tmp/{{ item }}
+      state: absent
+    with_items:
+      - "{{ python_full_version }}.tgz"
+      - "{{ python_full_version }}"
+
+  - name: Run ldconfig
+    shell: /sbin/ldconfig
+
+  - name: Create symlink for python in /usr/local/bin
+    file:
+      src: /usr/local/{{ python_version_install_directory }}/bin/{{ python_binary_name }}
+      dest: /usr/local/bin/python
+      state: link
+
+  #Depending on Python version, we cant be sure that pip is installed
+  - name: Check for pip binary
+    stat:
+      path: /usr/local/{{ python_version_install_directory }}/bin/{{ pip_binary_name }}
+    register: pip_register
+
+  # Python27 fix
+  - name: Delete any existing pip in /usr/local/bin to prevent errors in other roles
+    file:
+      path: /usr/local/bin/pip
+      state: absent
+
+  - name: Create symlink for pip in /usr/local/bin
+    file:
+      src: /usr/local/{{ python_version_install_directory }}/bin/{{ pip_binary_name }}
+      dest: /usr/local/bin/pip
+      state: link
+    when: pip_register.stat.exists
+
+  - name: Add {{ python_version_install_directory }} bin directory to PATH
+    lineinfile:
+      dest: /etc/bashrc
+      line: "export PATH=$PATH:/usr/local/{{ python_version_install_directory }}/bin"
+      state: present
+
+  - name: Install virtualenv wrapper
+    pip:
+      name: virtualenvwrapper
+
+  - name: Add line to source virtualenvwrapper to bashrc
+    lineinfile:
+      dest: /etc/bashrc
+      line: "source /usr/local/{{ python_version_install_directory }}/bin/virtualenvwrapper.sh &> /dev/null"
+      state: present
+
+  when: (python_version.stdout != python_version_stdout) or (python_install_override)

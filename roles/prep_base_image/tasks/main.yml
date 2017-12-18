@@ -1,0 +1,7 @@
+---
+- name: Install required system packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ required_packages }}"

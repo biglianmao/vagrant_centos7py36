@@ -1,0 +1,7 @@
+*.ova
+*.ovf
+*.box
+.DS_Store
+*.iso
+packer_cache/
+set_vagrant_cloud_env.sh

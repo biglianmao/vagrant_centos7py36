@@ -1,0 +1,2 @@
+---
+required_packages: [dkms, binutils, gcc, make, patch, libgomp, glibc-headers, glibc-devel, kernel-headers, openssh-clients, man, git, vim, wget, curl, ntp]

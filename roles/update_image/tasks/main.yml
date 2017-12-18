@@ -1,0 +1,50 @@
+---
+- name: Running yum update
+  yum:
+    name: '*'
+    state: latest
+
+- name: Mount Guest Additions
+  mount:
+    path: /mnt/
+    src: /root/VBoxGuestAdditions.iso
+    fstype: iso9660
+    opts: loop
+    state: mounted
+
+- name: Install Guest Additions
+  shell: sh /mnt/VBoxLinuxAdditions.run
+
+- name: Unmount Guest Additions
+  mount:
+    path: /mnt/
+    state: absent
+
+- name: Remove Guest Additions iso file
+  file:
+    path: /root/VBoxGuestAdditions.iso
+    state: absent
+
+- name: Register files in /tmp directory
+  shell: ls -al /tmp
+  register: tmpcontents
+
+- name: Delete files in /tmp
+  file: 
+    path: /tmp/{{ item }} 
+    state: absent
+  with_items: "{{ tmpcontents.stdout_lines }}"
+
+- name: Removing btmp and wtmp logs
+  file:
+    path: /var/log/{{ item }}
+    state: absent
+  with_items:
+    - "btmp"
+    - "wtmp"
+
+- name: Run yum clean
+  shell: yum clean all
+
+- name: Clearing history
+  shell: history -c

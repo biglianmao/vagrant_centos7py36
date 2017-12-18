@@ -1,0 +1,8 @@
+---
+- name: Configure Vagrant Vbox image
+  hosts: all
+  become: yes
+  roles:
+    - { role: prep_base_image }
+    - { role: python_install, python_install_override: false }
+    - { role: update_image }
