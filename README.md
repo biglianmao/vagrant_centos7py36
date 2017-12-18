@@ -2,6 +2,12 @@
 ### CentOS 7 with Python3.6.3 and Guest Additions 5.1.26
 
 ---
+#### What it is
+This repo contains the Packer, kickstart, and Ansible scripts to create a CentOS7 Vagrant box with Python36 and Virtualbox Guest Additions installed on it.
+
+Python3.6 is installed alongside the system Python(2.7.5) and the user's PATH is set so that 3.6 is the 'active' version by default. The box is built from the CentOS7 minimal iso with additional packages installed as needed for some of the most common uses in Python. All of this can be customized (see below), but if you use this base box by pulling from [Vagrant Cloud](https://app.vagrantup.com/rollerd/boxes/centos7py36) and find there is a common package missing or some other bug, please feel free to put in a pull request or open an issue.
+
+Thanks for taking a look, I hope this is useful!
 
 #### Usage
 To use it, simply:
