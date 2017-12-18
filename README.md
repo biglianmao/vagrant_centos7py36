@@ -11,7 +11,8 @@ Thanks for taking a look, I hope this is useful!
 
 #### Usage
 To use it, simply create a Vagrantfile with the following: 
-```Vagrant.configure("2") do |config|
+```
+Vagrant.configure("2") do |config|
   config.vm.box = "rollerd/centos7py36"
 end
 ```
