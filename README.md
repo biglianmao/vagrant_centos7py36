@@ -13,7 +13,8 @@ Thanks for taking a look, I hope this is useful!
 To use it, simply create a Vagrantfile with the following: 
 ```Vagrant.configure("2") do |config|
   config.vm.box = "rollerd/centos7py36"
-end```
+end
+```
 
 OR, to create your own base box from this template:
 
