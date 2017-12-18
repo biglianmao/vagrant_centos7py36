@@ -10,7 +10,12 @@ Python3.6 is installed alongside the system Python(2.7.5) and the user's PATH is
 Thanks for taking a look, I hope this is useful!
 
 #### Usage
-To use it, simply:
+To use it, simply create a Vagrantfile with the following: 
+```Vagrant.configure("2") do |config|
+  config.vm.box = "rollerd/centos7py36"
+end```
+
+OR, to create your own base box from this template:
 
 * Install [packer](https://www.packer.io/)
 * Set the following environment variables with your Vagrant Cloud credentials:
