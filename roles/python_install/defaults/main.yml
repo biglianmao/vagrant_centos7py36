@@ -1,12 +1,12 @@
 ---
 # String that is output when 'python --version' is run and is used as a variable to determine if the other tasks should be run
-python_version_stdout: Python 3.6.3
+python_version_stdout: Python 3.6.4
 
 # String that is used to determine file names to unarchive, paths to files, etc
-python_full_version: Python-3.6.3
+python_full_version: Python-3.6.4
 
 # Download URL pointing to the .tgz file containing the version of Python to install
-python_download_url: https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz
+python_download_url: https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
 
 # String used for naming directory in /usr/local/{{ python_version_install_directory }}/ where Python version will be installed
 python_version_install_directory: Python36

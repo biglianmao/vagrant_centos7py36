@@ -1,5 +1,5 @@
 # Vagrant Base Box
-### CentOS 7 with Python3.6.3 and Guest Additions 5.1.26
+### CentOS 7 with Python3.6.4 and Guest Additions 5.2.4
 
 ---
 #### What it is
