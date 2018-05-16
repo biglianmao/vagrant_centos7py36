@@ -1,8 +1,6 @@
 {
     "variables": {
-        "box_version": "1.0.{{isotime \"2006-01-02\"}}",
-        "vagrant_cloud_access_token": "{{env `VAGRANT_ACCESS_TOKEN`}}",
-        "vagrant_cloud_box_tag": "{{env `VAGRANT_BOX_TAG`}}"
+        "box_version": "1.0.{{isotime \"2006-01-02\"}}"
     },
     "builders": [
         {
@@ -11,7 +9,7 @@
             "ssh_timeout": "10m",
             "iso_checksum": "bba314624956961a2ea31dd460cd860a77911c1e0a56e4820a12b9c5dad363f5",
             "iso_checksum_type": "sha256",
-            "iso_url": "http://mirrors.cmich.edu/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso",
+            "iso_url": "http://mirrors.163.com/centos/7.4.1708/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso",
             "disk_size": 30000,
             "guest_os_type": "RedHat_64",
             "ssh_username": "root",
@@ -61,14 +59,6 @@
             {
                 "type": "vagrant",
                 "keep_input_artifact": false
-            },
-            {
-                "type": "vagrant-cloud",
-                "access_token": "{{user `vagrant_cloud_access_token`}}",
-                "box_tag": "{{user `vagrant_cloud_box_tag`}}",
-                "version": "{{user `box_version`}}",
-                "no_release": "true",
-                "version_description": "CentOS 7 Python3.6 GuestAdditions 5.2.4 Base box latest yum updates as of {{isotime \"2006-01-02\"}}\n- Python3.6"
             }
         ]
     ]
