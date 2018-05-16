@@ -20,9 +20,6 @@ end
 OR, to create your own base box from this template:
 
 * Install [packer](https://www.packer.io/)
-* Set the following environment variables with your Vagrant Cloud credentials:
-  * ```export VAGRANT_ACCESS_TOKEN=<Your Vagrant Cloud access token>```
-  * ```export VAGRANT_BOX_TAG=<Your Vagrant Cloud username/box_name>```
 * Run: ```packer build packer_template.json```
 * For more info or to contribute, see the [github page](https://github.com/rollerd/vagrant_centos7py36)
 
