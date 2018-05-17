@@ -35,3 +35,47 @@ This Packer template uses a combination of a basic kickstart script and a few [A
 ##### NOTE: 
 #### The GuestAdditions version that gets installed will be dictated by the version of Virtualbox on the system doing the Packer build by default. You would need to create a new role to install a version of GuestAdditions different from that if you needed such a thing
 
+
+
+
+            "原来的iso从163镜像下载，改为文件":"",
+            "\"iso_url\": \"http://mirrors.163.com/centos/7.4.1708/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso\",":"",
+
+
+
+            ,
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "yum -y update",
+                "yum install -y epel-release",
+                "yum install -y ansible",
+                "yum install -y kernel-devel"
+            ]
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "ansible_local.yml",
+            "role_paths": [
+                "./roles/prep_base_image",
+                "./roles/update_image",
+                "./roles/python_install"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "yum remove -y ansible",
+                "rm -rf /tmp/*"
+            ]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "vagrant",
+                "keep_input_artifact": false
+            }
+        ]
+    ]
